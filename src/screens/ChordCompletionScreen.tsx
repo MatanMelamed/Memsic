@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        fontWeight: 'bold',
-        color: Colors.Blackish
+        fontWeight: '700',
+        color: '#525053'
     },
 })
