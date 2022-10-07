@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { HomeScreen, ChordCompletionScreen, RootStackParamList, Screens } from './src/screens';
 import { AppBootstrap } from './src/models/AppBootstrap';
-import ChordCompletionSettingsScreen from './src/screens/ChordCompletionPreferenceScreen';
+import ChordCompletionSettingsScreen from './src/screens/ChordCompletionSettingsScreen';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 

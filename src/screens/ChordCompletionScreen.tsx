@@ -27,7 +27,7 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
             <View style={styles.titleContainer}>
                 <View style={{ flex: 1 }} />
 
-                <View style={{ flex: 1, alignItems: 'center' }}>
+                <View style={{ flex: 2, alignItems: 'center' }}>
                     <Text style={styles.title}>
                         {chordToComplete.root.label} {chordToComplete.label}
                     </Text>

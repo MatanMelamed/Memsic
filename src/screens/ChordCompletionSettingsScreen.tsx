@@ -1,9 +1,10 @@
 import { View, Text, Switch, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import Slider from '@react-native-community/slider'
+import { Colors } from '../assets'
 
 
-const ChordCompletionPreferenceScreen = () => {
+const ChordCompletionSettingsScreen = () => {
 
     const [newChordOnCompletion, setNewChordOnCompletion] = useState(false)
 
@@ -15,7 +16,7 @@ const ChordCompletionPreferenceScreen = () => {
 
             <View style={styles.settingContainer}>
                 <View style={styles.settingLabelContainer}>
-                    <Text style={styles.settingLabel}>New chord on completion</Text>
+                    <Text style={styles.settingLabel}>New chord on finish</Text>
                 </View>
                 <View style={styles.settingValueContainer}>
                     <Switch
@@ -27,7 +28,7 @@ const ChordCompletionPreferenceScreen = () => {
 
             <View style={styles.settingContainer}>
                 <View style={styles.settingLabelContainer}>
-                    <Text style={styles.settingLabel}>Time delay for new chord</Text>
+                    <Text style={styles.settingLabel}>New chord time delay</Text>
                 </View>
                 <View style={styles.settingValueContainer}>
                     <Slider
@@ -41,7 +42,7 @@ const ChordCompletionPreferenceScreen = () => {
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#000000"
                     />
-                    <Text style={{}}>
+                    <Text style={{ color: Colors.Grayish }}>
                         {newChordTimeDelay}
                     </Text>
                 </View>
@@ -81,8 +82,9 @@ const styles = StyleSheet.create({
 
     settingLabel: {
         fontSize: 16,
-        fontWeight: '700'
+        fontWeight: '700',
+        color: Colors.Grayish
     },
 })
 
-export default ChordCompletionPreferenceScreen
+export default ChordCompletionSettingsScreen

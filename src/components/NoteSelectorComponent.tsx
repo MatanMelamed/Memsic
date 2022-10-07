@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     noteButtonLabel: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: Colors.Grayish,
         textAlign: 'center'
     }
 })

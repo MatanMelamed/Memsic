@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingTop: 18,
         paddingBottom: 34,
+        color: Colors.Grayish,
     },
     intervalInput: {
         fontSize: 20,
