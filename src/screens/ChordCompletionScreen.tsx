@@ -1,13 +1,13 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import ChordCompletionQuestionComponent from '../components/ChordCompletion/ChordCompletionQuestionComponent'
-import NoteSelectorComponent from '../components/NoteSelectorComponent'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { View, Text, SafeAreaView, StyleSheet, Image, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { RootStackParamList, Screens } from './navigation'
-import { Chords, Intervals, Note, NoteListener, NoteObserver, Notes } from '../models'
-import { Chord } from '../models/Chord'
-import { IsValidSequence } from '../models/Music'
-import { Colors } from '../assets/Colors'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+
+import NoteSelectorComponent from '../components/NoteSelectorComponent'
+import ChordCompletionQuestionComponent from '../components/ChordCompletion/ChordCompletionQuestionComponent'
+
+import { Chord, Chords, Note } from '../models'
+import { Icons, Colors } from '../assets'
 
 export type ChordCompletionScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordCompletion>
 
@@ -25,10 +25,26 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
         <SafeAreaView style={styles.appContainer}>
 
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>
-                    {chordToComplete.root.label} {chordToComplete.label}
-                </Text>
+                <View style={{ flex: 1 }} />
+
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Text style={styles.title}>
+                        {chordToComplete.root.label} {chordToComplete.label}
+                    </Text>
+                </View>
+
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+                    <TouchableOpacity style={styles.settingsButton}
+                        onPress={() => { navigation.navigate(Screens.ChordCompletionSetings) }}>
+                        <Image
+                            style={styles.settingsIcon}
+                            source={Icons.Preferences}
+                        />
+                    </TouchableOpacity>
+                </View>
+
             </View>
+
 
             <ChordCompletionQuestionComponent
                 flex={2}
@@ -41,7 +57,7 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
                 onNotePressed={onNotePressed}
             />
 
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
@@ -49,17 +65,25 @@ const styles = StyleSheet.create({
     appContainer: {
         flex: 1,
     },
+
     titleContainer: {
+        flexDirection: 'row',
         paddingVertical: 16,
-        height: '12%',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: Colors.Yellow,
         elevation: 10,
     },
+
     title: {
         fontSize: 30,
         fontWeight: '700',
-        color: '#525053'
+        color: '#525053',
     },
+
+    settingsButton: {
+        marginRight: '15%',
+    },
+    settingsIcon: {
+        width: 24,
+        height: 24,
+    }
 })
