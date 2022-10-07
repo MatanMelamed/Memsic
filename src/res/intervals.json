@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Perfect Unison",
+    "notation": "1",
+    "label": "P1",
+    "halfSteps": 0
+  },
+  {
+    "name": "Minor Second",
+    "notation": "2b",
+    "label": "m2",
+    "halfSteps": 1
+  },
+  {
+    "name": "Major Second",
+    "notation": "2",
+    "label": "M2",
+    "halfSteps": 2
+  },
+  {
+    "name": "Minor Third",
+    "notation": "3b",
+    "label": "m3",
+    "halfSteps": 3
+  },
+  {
+    "name": "Major Third",
+    "notation": "3",
+    "label": "M3",
+    "halfSteps": 4
+  },
+  {
+    "name": "Perfect Fourth",
+    "notation": "4",
+    "label": "P4",
+    "halfSteps": 5
+  },
+  {
+    "name": "Tritone",
+    "notation": "5b",
+    "label": "TT",
+    "halfSteps": 6
+  },
+  {
+    "name": "Perfect Fifth",
+    "notation": "5",
+    "label": "P5",
+    "halfSteps": 7
+  },
+  {
+    "name": "Minor Sixth",
+    "notation": "6b",
+    "label": "m6",
+    "halfSteps": 8
+  },
+  {
+    "name": "Major Sixth",
+    "notation": "6",
+    "label": "M6",
+    "halfSteps": 9
+  },
+  {
+    "name": "Minor Seventh",
+    "notation": "7b",
+    "label": "m7",
+    "halfSteps": 10
+  },
+  {
+    "name": "Major Seventh",
+    "notation": "7",
+    "label": "M7",
+    "halfSteps": 11
+  },
+  {
+    "name": "Perfect Octave",
+    "notation": "8",
+    "label": "P8",
+    "halfSteps": 12
+  }
+]
