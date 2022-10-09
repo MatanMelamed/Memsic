@@ -15,8 +15,19 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
 
     const onNotePressed = (newNote: Note) => {
         if (chordToComplete.Contains([newNote])) {
-            setNoteSequence([...noteSequence, newNote]);
+            const newNoteSequence = [...noteSequence, newNote];
+            setNoteSequence(newNoteSequence);
+
+            const isFinishedChord = chordToComplete.Notes().every(([i, n]) => newNoteSequence.includes(n));
+            if (isFinishedChord) {
+                setTimeout(() => showNewChord(), 1000)
+            }
         }
+    }
+
+    const showNewChord = () => {
+        setNoteSequence([])
+        setChordToComplete(Chords.RandomChord())
     }
 
     return (
