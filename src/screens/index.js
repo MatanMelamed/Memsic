@@ -1,5 +1,5 @@
 import {HomeScreen} from './HomeScreen';
-import {ChordCompletionScreen} from './ChordCompletionScreen';
+import {ChordCompletionScreen} from './ChordBuilderScreen';
 import {Screens} from './navigation';
 import {RootStackParamList} from './navigation';
 

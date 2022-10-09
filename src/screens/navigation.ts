@@ -1,11 +1,13 @@
 export enum Screens {
   Home = 'Home',
-  ChordCompletion = 'ChordCompletion',
-  ChordCompletionSetings = 'ChordCompletionSettings',
+  ChordBuilder = 'ChordBuilder',
+  ChordBuilderSetings = 'ChordBuilderSettings',
+  ChordPolicy = 'ChordPolicy',
 }
 
 export type RootStackParamList = {
   [Screens.Home]: undefined;
-  [Screens.ChordCompletion]: undefined;
-  [Screens.ChordCompletionSetings]: undefined;
+  [Screens.ChordBuilder]: undefined;
+  [Screens.ChordBuilderSetings]: undefined;
+  [Screens.ChordPolicy]: undefined;
 };

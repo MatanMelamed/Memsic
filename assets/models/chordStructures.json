@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Major",
+    "intervals": ["P1", "M3", "P5"]
+  },
+  {
+    "name": "Minor",
+    "intervals": ["P1", "m3", "P5"]
+  }
+]

@@ -1,6 +1,6 @@
-import {Interval} from '../Interval';
+import {Interval} from '../models/Interval';
 
-import intervals from '../../res/intervals.json';
+import intervals from '../../../assets/models/intervals.json';
 
 export class Intervals {
   private static _intervals: Interval[] = intervals;

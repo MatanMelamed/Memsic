@@ -1,4 +1,4 @@
-import {Note} from '../Note';
+import {Note} from '../models/Note';
 
 export class Notes {
   private static _notes: Note[] = new Array();

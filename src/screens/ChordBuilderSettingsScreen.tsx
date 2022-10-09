@@ -1,10 +1,10 @@
 import { View, Text, Switch, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import Slider from '@react-native-community/slider'
-import { Colors } from '../assets'
+import { Colors } from '../../assets'
 
 
-const ChordCompletionSettingsScreen = () => {
+const ChordBuilderSettingsScreen = () => {
 
     const [newChordOnCompletion, setNewChordOnCompletion] = useState(false)
 
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ChordCompletionSettingsScreen
+export default ChordBuilderSettingsScreen
