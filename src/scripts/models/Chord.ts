@@ -16,15 +16,29 @@ export class Chord {
     );
   }
 
-  public Contains(notes: Note[]): boolean {
+  public ContainsNotes(notes: Note[]): boolean {
     return notes.every(note => this._notes.includes(note));
+  }
+
+  public ContainsIntervals(intervals: Interval[]): boolean {
+    return intervals.every(interval =>
+      this._chordStructure.intervals.includes(interval),
+    );
   }
 
   public Name(): string {
     return `${this._root.label} ${this._chordStructure.name}`;
   }
 
-  public Notes(): Array<[interval: Interval, note: Note]> {
+  public Intervals(): Interval[] {
+    return this._chordStructure.intervals;
+  }
+
+  public Notes(): Note[] {
+    return this._notes;
+  }
+
+  public IntervalsAndNotes(): Array<[interval: Interval, note: Note]> {
     return this._notes.map((n, i) => [this._chordStructure.intervals[i], n]);
   }
 }

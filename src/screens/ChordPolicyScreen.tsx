@@ -7,6 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Interval, Intervals } from '../scripts';
 import { removeItem } from '../scripts/utilities';
 import { Colors } from '../../assets';
+import { ChordPolicy } from '../scripts/models/ChordPolicy';
 
 
 export type ChordPolicyScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordPolicy>

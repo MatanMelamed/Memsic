@@ -14,11 +14,11 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
     var [noteSequence, setNoteSequence] = useState<Note[]>([])
 
     const onNotePressed = (newNote: Note) => {
-        if (chordToComplete.Contains([newNote])) {
+        if (chordToComplete.ContainsNotes([newNote])) {
             const newNoteSequence = [...noteSequence, newNote];
             setNoteSequence(newNoteSequence);
 
-            const isFinishedChord = chordToComplete.Notes().every(([i, n]) => newNoteSequence.includes(n));
+            const isFinishedChord = chordToComplete.Notes().every(n => newNoteSequence.includes(n));
             if (isFinishedChord) {
                 setTimeout(() => showNewChord(), 1000)
             }
@@ -47,7 +47,7 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
 
             {/* Chord Builder */}
             <View style={styles.chordBuilderContainer}>
-                {chordToComplete.Notes().map(([interval, note]) => {
+                {chordToComplete.IntervalsAndNotes().map(([interval, note]) => {
                     const isNoteFound = noteSequence.includes(note);
 
                     return (
