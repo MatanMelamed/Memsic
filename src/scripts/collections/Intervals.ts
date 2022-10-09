@@ -17,6 +17,10 @@ export class Intervals {
     );
   }
 
+  public static All(): Interval[] {
+    return this._intervals;
+  }
+
   public static Get(label: string): Interval {
     let interval = Intervals._intervalsDict[label];
     if (interval === undefined) {
