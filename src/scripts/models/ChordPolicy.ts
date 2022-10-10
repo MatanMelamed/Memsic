@@ -1,3 +1,4 @@
+import {Intervals} from '..';
 import {Chord} from './Chord';
 import {Interval} from './Interval';
 
@@ -69,11 +70,40 @@ export class ChordPolicy {
   }
 }
 
-export const shouldShowChord = (chord: Chord, policy: ChordPolicy): boolean => {
+export const isChordPassingPolicy = (
+  chord: Chord,
+  policy: ChordPolicy,
+): boolean => {
   if (policy.type === ChordPolicyType.Intervals) {
     const policyTest = intervalsConditionMap[policy.intervalsCondition];
     return policyTest(chord, policy.intervals);
   }
 
   return true;
+};
+
+export const isChordPassingPolicies = (
+  chord: Chord,
+  policies: ChordPolicy[],
+): boolean => {
+  return policies.every(policy => isChordPassingPolicy(chord, policy));
+};
+
+export const DefaultChordPolicies = (): ChordPolicy[] => {
+  return [
+    new ChordPolicy(
+      'Major Chords',
+      true,
+      ChordPolicyType.Intervals,
+      IntervalsCondition.Contains,
+      [...Intervals.GetAll(['P1', 'M3', 'P5'])],
+    ),
+    new ChordPolicy(
+      'Minor Chords',
+      true,
+      ChordPolicyType.Intervals,
+      IntervalsCondition.Contains,
+      [...Intervals.GetAll(['P1', 'm3', 'P5'])],
+    ),
+  ];
 };

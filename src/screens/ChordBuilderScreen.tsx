@@ -6,30 +6,48 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { Chord, Chords, Note, Notes } from '../scripts'
 import { Colors } from '../../assets'
-import { LogRecoilButton } from '../components/LogRecoilButton'
-import { logRecoil } from '../recoil'
+import { AdjustmentsHorizontalIcon } from 'react-native-heroicons/solid'
+import { useRecoilValue } from 'recoil'
+import { ChordBuilderState, EnabledChordPoliciesState } from '../recoil/chords'
+import { isChordPassingPolicies } from '../scripts/models/ChordPolicy'
 
 export type ChordCompletionScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordBuilder>
 
 export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParams) => {
-    var [chordToComplete, setChordToComplete] = useState<Chord>(Chords.RandomChord())
-    var [noteSequence, setNoteSequence] = useState<Note[]>([])
+
+    const [chordToComplete, setChordToComplete] = useState<Chord>(Chords.RandomChord())
+    const [noteSequence, setNoteSequence] = useState<Note[]>([])
+
+    const chordBuilderSettings = useRecoilValue(ChordBuilderState)
+    const enabledPolicies = useRecoilValue(EnabledChordPoliciesState)
 
     const onNotePressed = (newNote: Note) => {
-        if (chordToComplete.ContainsNotes([newNote])) {
-            const newNoteSequence = [...noteSequence, newNote];
+        const newNoteSequence = [...noteSequence, newNote];
+        if (chordToComplete.ContainsNotes([newNote]) && !noteSequence.includes(newNote)) {
             setNoteSequence(newNoteSequence);
+        }
 
-            const isFinishedChord = chordToComplete.Notes().every(n => newNoteSequence.includes(n));
-            if (isFinishedChord) {
-                setTimeout(() => showNewChord(), 1000)
-            }
+        const isFinishedChord = chordToComplete.Notes().every(n => newNoteSequence.includes(n));
+        if (isFinishedChord && chordBuilderSettings.newChordOnFinish) {
+            setTimeout(showNewChord, chordBuilderSettings.newChordDelayTime * 1000)
         }
     }
 
     const showNewChord = () => {
         setNoteSequence([])
-        setChordToComplete(Chords.RandomChord())
+        setChordToComplete(getNextChord())
+    }
+
+    const getNextChord = () => {
+        let newChord = Chords.RandomChord();
+        while (!isChordPassingPolicies(newChord, enabledPolicies)) {
+            newChord = Chords.RandomChord();
+        }
+        return newChord;
+    }
+
+    if (!isChordPassingPolicies(chordToComplete, enabledPolicies)) {
+        showNewChord();
     }
 
     return (
@@ -42,11 +60,9 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
                 </Text>
             </View>
 
-            <LogRecoilButton />
-
             {/* Chord Builder Settings */}
-            <TouchableOpacity style={styles.settingsButton}
-                onPress={() => { navigation.navigate(Screens.ChordBuilderSetings) }}>
+            <TouchableOpacity style={styles.settingsButton1} onPress={() => { navigation.navigate(Screens.ChordBuilderSetings) }}>
+                <AdjustmentsHorizontalIcon color={Colors.Blackish} size={26} />
             </TouchableOpacity>
 
             {/* Chord Builder */}
@@ -106,15 +122,10 @@ const styles = StyleSheet.create({
     },
 
     // chord builder settings
-    settingsButton: {
-        width: 25,
-        height: 25,
-        borderRadius: 45,
-        backgroundColor: Colors.Grayish,
-
+    settingsButton1: {
         position: 'absolute',
-        top: 26,
-        right: 26,
+        top: 25,
+        right: 20,
     },
 
     // chord builder

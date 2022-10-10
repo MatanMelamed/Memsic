@@ -1,5 +1,5 @@
 import {atom, DefaultValue, selector} from 'recoil';
-import {ChordPolicy} from '../scripts/models/ChordPolicy';
+import {ChordPolicy, DefaultChordPolicies} from '../scripts/models/ChordPolicy';
 
 export const ChordBuilderState = atom({
   key: 'ChordBuilder',
@@ -11,7 +11,7 @@ export const ChordBuilderState = atom({
 
 export const ChordPoliciesState = atom<ChordPolicy[]>({
   key: 'ChordPoliciesState',
-  default: [] as ChordPolicy[],
+  default: DefaultChordPolicies(),
 });
 
 export const EnabledChordPoliciesState = atom<ChordPolicy[]>({

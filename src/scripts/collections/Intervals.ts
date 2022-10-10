@@ -30,6 +30,10 @@ export class Intervals {
     return Intervals._intervalsDict[label];
   }
 
+  public static GetAll(label: string[]): Interval[] {
+    return label.map(l => this.Get(l));
+  }
+
   public static Random(): Interval {
     return this._intervals[Math.floor(Math.random() * this._intervals.length)];
   }

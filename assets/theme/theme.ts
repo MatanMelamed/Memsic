@@ -3,7 +3,7 @@ import {Colors} from '../Colors';
 
 const defaultTheme = StyleSheet.create({
   mediumButton: {
-    backgroundColor: Colors.Grayish2,
+    backgroundColor: Colors.Grayish,
     paddingVertical: 8,
     marginHorizontal: 32,
     width: 90,

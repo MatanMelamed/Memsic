@@ -88,11 +88,6 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={onNEW}>
-                <Text style={theme.mediumButton}>NEW</Text>
-            </TouchableOpacity>
-            <LogRecoilButton />
-
             <View style={styles.screenContainer}>
                 {/* Policy Name */}
                 <View style={styles.settingContainer}>
