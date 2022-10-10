@@ -29,4 +29,8 @@ export class Intervals {
 
     return Intervals._intervalsDict[label];
   }
+
+  public static Random(): Interval {
+    return this._intervals[Math.floor(Math.random() * this._intervals.length)];
+  }
 }

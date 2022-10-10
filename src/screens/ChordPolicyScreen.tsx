@@ -6,11 +6,11 @@ import { RootStackParamList, Screens } from './navigation'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Interval, Intervals } from '../scripts';
 import { removeItem } from '../scripts/utilities';
-import { Colors } from '../../assets';
+import { Colors, theme } from '../../assets';
 import { ChordPolicy, ChordPolicyType, IntervalsCondition } from '../scripts/models/ChordPolicy';
 import { useRecoilState } from 'recoil';
 import { ChordPoliciesState } from '../recoil/chords';
-import LogRecoilButton from '../components/logRecoilButton';
+import { LogRecoilButton } from '../components/LogRecoilButton';
 
 
 export type ChordPolicyScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordPolicy>
@@ -76,14 +76,28 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
         navigation.goBack();
     }
 
+    const onNEW = () => {
+        console.log('Current policies ' + chordPolicies)
+        const newPolicy = new ChordPolicy('Major Chords',
+            true,
+            ChordPolicyType.Intervals,
+            IntervalsCondition.Exactly,
+            [Intervals.Random()])
+        setChordPolicies([...chordPolicies, newPolicy])
+    }
+
     return (
         <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={onNEW}>
+                <Text style={theme.mediumButton}>NEW</Text>
+            </TouchableOpacity>
             <LogRecoilButton />
+
             <View style={styles.screenContainer}>
                 {/* Policy Name */}
                 <View style={styles.settingContainer}>
                     <View style={styles.settingLabelContainer}>
-                        <Text style={styles.settingLabel}>Policy Name</Text>
+                        <Text style={theme.mediumLabel}>Policy Name</Text>
                     </View>
                     <View style={styles.settingValueContainer}>
                         <TextInput
@@ -99,7 +113,7 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
                 {/* Action */}
                 <View style={styles.settingContainer}>
                     <View style={styles.settingLabelContainer}>
-                        <Text style={styles.settingLabel}>Action</Text>
+                        <Text style={theme.mediumLabel}>Action</Text>
                     </View>
                     <View style={styles.settingValueContainer}>
                         <DropDownPicker
@@ -118,7 +132,7 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
                 {/* Type */}
                 <View style={styles.settingContainer}>
                     <View style={styles.settingLabelContainer}>
-                        <Text style={styles.settingLabel}>Type</Text>
+                        <Text style={theme.mediumLabel}>Type</Text>
                     </View>
                     <View style={styles.settingValueContainer}>
                         <DropDownPicker
@@ -139,7 +153,7 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
                 {/* Intervals condition */}
                 <View style={styles.settingContainer}>
                     <View style={styles.settingLabelContainer}>
-                        <Text style={styles.settingLabel}>Condition</Text>
+                        <Text style={theme.mediumLabel}>Condition</Text>
                     </View>
                     <View style={styles.settingValueContainer}>
                         <DropDownPicker
@@ -179,12 +193,12 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
 
             <View style={styles.controlButtonsContainer}>
                 <TouchableOpacity onPress={onCancel}>
-                    <Text style={[styles.button, styles.cancelButton]}>
+                    <Text style={theme.mediumButton}>
                         Cancel
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onSave}>
-                    <Text style={[styles.button, styles.saveButton]}>
+                    <Text style={theme.mediumButton}>
                         Save
                     </Text>
                 </TouchableOpacity>
@@ -263,27 +277,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
-    button: {
-        backgroundColor: Colors.Grayish2,
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        marginHorizontal: 32,
-        minWidth: 80,
-        borderRadius: 10,
-
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '700',
-        color: Colors.White
-    },
-    saveButton: {
-
-    },
-    cancelButton: {
-
-    }
-
 })
 
 export default ChordPolicyScreen

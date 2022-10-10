@@ -6,6 +6,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { Chord, Chords, Note, Notes } from '../scripts'
 import { Colors } from '../../assets'
+import { LogRecoilButton } from '../components/LogRecoilButton'
+import { logRecoil } from '../recoil'
 
 export type ChordCompletionScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordBuilder>
 
@@ -39,6 +41,8 @@ export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParam
                     {chordToComplete.Name()}
                 </Text>
             </View>
+
+            <LogRecoilButton />
 
             {/* Chord Builder Settings */}
             <TouchableOpacity style={styles.settingsButton}

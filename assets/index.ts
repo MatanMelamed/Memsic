@@ -1,3 +1,4 @@
 import {Colors} from './Colors';
+import {theme} from './theme/theme';
 
-export {Colors};
+export {Colors, theme};

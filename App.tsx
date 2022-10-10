@@ -17,8 +17,8 @@ const Application = () => {
     <RecoilRoot>
       <NavigationContainer>
         <RootStack.Navigator>
-          <RootStack.Screen name={Screens.ChordPolicy} component={ChordPolicyScreen} />
           <RootStack.Screen name={Screens.Home} component={HomeScreen} />
+          <RootStack.Screen name={Screens.ChordPolicy} component={ChordPolicyScreen} />
           <RootStack.Screen name={Screens.ChordBuilder} component={ChordCompletionScreen} />
           <RootStack.Screen name={Screens.ChordBuilderSetings} component={ChordBuilderSettingsScreen} />
         </RootStack.Navigator>

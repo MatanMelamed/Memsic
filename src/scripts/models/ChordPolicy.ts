@@ -9,10 +9,10 @@ export const enum ChordPolicyType {
 // intervals policy
 
 export const enum IntervalsCondition {
-  Contains,
-  DoesNotContain,
-  Exactly,
-  ExactlyNot,
+  Contains = 'Contains',
+  DoesNotContain = 'Does Not Contain',
+  Exactly = 'Exactly',
+  ExactlyNot = 'Exactly Not',
 }
 
 const checkContains = (chord: Chord, intervals: Interval[]): boolean => {

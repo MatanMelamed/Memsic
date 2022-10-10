@@ -2,26 +2,19 @@ import {atom, DefaultValue, selector} from 'recoil';
 import {ChordPolicy} from '../scripts/models/ChordPolicy';
 
 export const ChordBuilderState = atom({
-  key: 'ChordBuilderState',
+  key: 'ChordBuilder',
   default: {
-    chordPolicies: [] as ChordPolicy[],
+    newChordOnFinish: true,
+    newChordDelayTime: 1,
   },
 });
 
-export const ChordPoliciesState = selector<ChordPolicy[]>({
-  key: 'ChordPolicies',
-  get: ({get}) => {
-    const chordBuilderState = get(ChordBuilderState);
-    return chordBuilderState.chordPolicies;
-  },
-  set: ({get, set}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      return;
-    }
+export const ChordPoliciesState = atom<ChordPolicy[]>({
+  key: 'ChordPoliciesState',
+  default: [] as ChordPolicy[],
+});
 
-    let chordBuilderState = get(ChordBuilderState);
-    chordBuilderState.chordPolicies = newValue;
-    console.log(chordBuilderState);
-    set(ChordBuilderState, chordBuilderState);
-  },
+export const EnabledChordPoliciesState = atom<ChordPolicy[]>({
+  key: 'EnabledChordPoliciesState',
+  default: [] as ChordPolicy[],
 });
