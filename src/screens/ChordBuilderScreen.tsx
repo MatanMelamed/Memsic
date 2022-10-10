@@ -14,7 +14,6 @@ import { isChordPassingPolicies } from '../scripts/models/ChordPolicy'
 export type ChordCompletionScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordBuilder>
 
 export const ChordCompletionScreen = ({ navigation }: ChordCompletionScreenParams) => {
-
     const [chordToComplete, setChordToComplete] = useState<Chord>(Chords.RandomChord())
     const [noteSequence, setNoteSequence] = useState<Note[]>([])
 

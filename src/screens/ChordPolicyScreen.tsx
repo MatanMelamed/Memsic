@@ -19,26 +19,25 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
     const [policyName, setPolicyName] = useState('')
 
     const [actionOpen, setActionOpen] = useState(false);
-    const [actionValue, setActionValue] = useState(null);
+    const [actionValue, setActionValue] = useState('show');
     const [actionItems, setActionItems] = useState([
         { label: 'Show', value: 'show' },
         { label: 'Hide', value: 'hide' }
     ]);
 
     const [typeOpen, setTypeOpen] = useState(false);
-    const [typeValue, setTypeValue] = useState(null);
+    const [typeValue, setTypeValue] = useState(ChordPolicyType.Intervals);
     const [typeItems, setTypeItems] = useState([
         // { label: 'Chords', value: 'ChordPolicyType.Chords' },
         { label: 'Intervals', value: ChordPolicyType.Intervals }
     ]);
 
     const [conditionOpen, setConditionOpen] = useState(false);
-    const [conditionValue, setConditionValue] = useState(null);
+    const [conditionValue, setConditionValue] = useState(IntervalsCondition.ContainsAll);
     const [conditionItems, setConditionItems] = useState([
-        { label: 'Contains', value: IntervalsCondition.Contains },
-        { label: 'Does not contain', value: IntervalsCondition.DoesNotContain },
+        { label: 'Contains All', value: IntervalsCondition.ContainsAll },
+        { label: 'Does not contain any', value: IntervalsCondition.DoesNotContainAny },
         { label: 'Exactly', value: IntervalsCondition.Exactly },
-        { label: 'Exactly not', value: IntervalsCondition.ExactlyNot },
     ]);
 
     const [selectedIntervals, setSelectedIntervals] = useState<Interval[]>([])
@@ -67,6 +66,7 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
             // @ts-ignore
             const newChordPolicy = new ChordPolicy(policyName, actionValue === 'show', typeValue, conditionValue, selectedIntervals);
             setChordPolicies([...chordPolicies, newChordPolicy])
+            navigation.goBack();
         } else {
             console.log('Policy was not saved')
         }
@@ -76,114 +76,101 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
         navigation.goBack();
     }
 
-    const onNEW = () => {
-        console.log('Current policies ' + chordPolicies)
-        const newPolicy = new ChordPolicy('Major Chords',
-            true,
-            ChordPolicyType.Intervals,
-            IntervalsCondition.Exactly,
-            [Intervals.Random()])
-        setChordPolicies([...chordPolicies, newPolicy])
-    }
-
     return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.screenContainer}>
-                {/* Policy Name */}
-                <View style={styles.settingContainer}>
-                    <View style={styles.settingLabelContainer}>
-                        <Text style={theme.mediumLabel}>Policy Name</Text>
-                    </View>
-                    <View style={styles.settingValueContainer}>
-                        <TextInput
-                            style={styles.settingTextInput}
-                            onChangeText={(v) => setPolicyName(v)}
-                            value={policyName}
+        <View style={styles.screenContainer}>
+            {/* Policy Name */}
+            <View style={styles.settingContainer}>
+                <View style={styles.settingLabelContainer}>
+                    <Text style={theme.mediumLabel}>Policy Name</Text>
+                </View>
+                <View style={styles.settingValueContainer}>
+                    <TextInput
+                        style={styles.settingTextInput}
+                        onChangeText={(v) => setPolicyName(v)}
+                        value={policyName}
+                    >
+
+                    </TextInput>
+                </View>
+            </View>
+
+            {/* Action */}
+            <View style={styles.settingContainer}>
+                <View style={styles.settingLabelContainer}>
+                    <Text style={theme.mediumLabel}>Action</Text>
+                </View>
+                <View style={styles.settingValueContainer}>
+                    <DropDownPicker
+                        style={styles.settingValueDropDown}
+                        open={actionOpen}
+                        value={actionValue}
+                        items={actionItems}
+                        setOpen={setActionOpen}
+                        setValue={setActionValue}
+                        setItems={setActionItems}
+                        zIndex={3000}
+                    />
+                </View>
+            </View>
+
+            {/* Type */}
+            <View style={styles.settingContainer}>
+                <View style={styles.settingLabelContainer}>
+                    <Text style={theme.mediumLabel}>Type</Text>
+                </View>
+                <View style={styles.settingValueContainer}>
+                    <DropDownPicker
+                        containerStyle={{}}
+                        style={styles.settingValueDropDown}
+                        open={typeOpen}
+                        value={typeValue}
+                        items={typeItems}
+                        setOpen={setTypeOpen}
+                        setValue={setTypeValue}
+                        setItems={setTypeItems}
+                        zIndex={2000}
+                    />
+                </View>
+            </View>
+
+            {/* Intervals */}
+            {/* Intervals condition */}
+            <View style={styles.settingContainer}>
+                <View style={styles.settingLabelContainer}>
+                    <Text style={theme.mediumLabel}>Condition</Text>
+                </View>
+                <View style={styles.settingValueContainer}>
+                    <DropDownPicker
+                        containerStyle={{}}
+                        style={styles.settingValueDropDown}
+                        open={conditionOpen}
+                        value={conditionValue}
+                        items={conditionItems}
+                        setOpen={setConditionOpen}
+                        setValue={setConditionValue}
+                        setItems={setConditionItems}
+                        zIndex={1000}
+                    />
+                </View>
+            </View>
+
+            <View style={[styles.settingContainer, styles.intervalButtonsContainer]}>
+                {Intervals.All().map(i => {
+                    const isSelected = selectedIntervals.includes(i);
+
+                    return (
+                        <TouchableOpacity
+                            key={i.label}
+                            onPress={() => onIntervalPress(i)}
                         >
-
-                        </TextInput>
-                    </View>
-                </View>
-
-                {/* Action */}
-                <View style={styles.settingContainer}>
-                    <View style={styles.settingLabelContainer}>
-                        <Text style={theme.mediumLabel}>Action</Text>
-                    </View>
-                    <View style={styles.settingValueContainer}>
-                        <DropDownPicker
-                            style={styles.settingValueDropDown}
-                            open={actionOpen}
-                            value={actionValue}
-                            items={actionItems}
-                            setOpen={setActionOpen}
-                            setValue={setActionValue}
-                            setItems={setActionItems}
-                            zIndex={3000}
-                        />
-                    </View>
-                </View>
-
-                {/* Type */}
-                <View style={styles.settingContainer}>
-                    <View style={styles.settingLabelContainer}>
-                        <Text style={theme.mediumLabel}>Type</Text>
-                    </View>
-                    <View style={styles.settingValueContainer}>
-                        <DropDownPicker
-                            containerStyle={{}}
-                            style={styles.settingValueDropDown}
-                            open={typeOpen}
-                            value={typeValue}
-                            items={typeItems}
-                            setOpen={setTypeOpen}
-                            setValue={setTypeValue}
-                            setItems={setTypeItems}
-                            zIndex={2000}
-                        />
-                    </View>
-                </View>
-
-                {/* Intervals */}
-                {/* Intervals condition */}
-                <View style={styles.settingContainer}>
-                    <View style={styles.settingLabelContainer}>
-                        <Text style={theme.mediumLabel}>Condition</Text>
-                    </View>
-                    <View style={styles.settingValueContainer}>
-                        <DropDownPicker
-                            containerStyle={{}}
-                            style={styles.settingValueDropDown}
-                            open={conditionOpen}
-                            value={conditionValue}
-                            items={conditionItems}
-                            setOpen={setConditionOpen}
-                            setValue={setConditionValue}
-                            setItems={setConditionItems}
-                            zIndex={1000}
-                        />
-                    </View>
-                </View>
-
-                <View style={[styles.settingContainer, styles.intervalButtonsContainer]}>
-                    {Intervals.All().map(i => {
-                        const isSelected = selectedIntervals.includes(i);
-
-                        return (
-                            <TouchableOpacity
-                                key={i.label}
-                                onPress={() => onIntervalPress(i)}
-                            >
-                                <Text style={[
-                                    styles.intervalButton,
-                                    isSelected ? styles.intervalButtonSelected : styles.intervalButtonUnselected
-                                ]}>
-                                    {i.label}
-                                </Text>
-                            </TouchableOpacity>);
-                    })}
-                </View>
-
+                            <Text style={[
+                                styles.intervalButton,
+                                isSelected ? styles.intervalButtonSelected : styles.intervalButtonUnselected
+                            ]}>
+                                {i.label}
+                            </Text>
+                        </TouchableOpacity>);
+                })}
             </View>
 
             <View style={styles.controlButtonsContainer}>
@@ -234,7 +221,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         width: '85%',
         borderBottomWidth: 1,
-
+        color: Colors.Blackish
     },
     settingValueDropDown: {
         alignSelf: 'center',

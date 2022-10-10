@@ -70,11 +70,5 @@
     "notation": "7",
     "label": "M7",
     "halfSteps": 11
-  },
-  {
-    "name": "Perfect Octave",
-    "notation": "8",
-    "label": "P8",
-    "halfSteps": 12
   }
 ]

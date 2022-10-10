@@ -6,5 +6,33 @@
   {
     "name": "Minor",
     "intervals": ["P1", "m3", "P5"]
+  },
+  {
+    "name": "Sus2",
+    "intervals": ["P1", "M2", "P5"]
+  },
+  {
+    "name": "Sus4",
+    "intervals": ["P1", "P4", "P5"]
+  },
+  {
+    "name": "Augmented",
+    "intervals": ["P1", "M3", "m6"]
+  },
+  {
+    "name": "Diminished",
+    "intervals": ["P1", "m3", "TT"]
+  },
+  {
+    "name": "Major 7",
+    "intervals": ["P1", "M3", "P5", "M7"]
+  },
+  {
+    "name": "7 (Dominant 7)",
+    "intervals": ["P1", "M3", "P5", "m7"]
+  },
+  {
+    "name": "Minor 7",
+    "intervals": ["P1", "m3", "P5", "m7"]
   }
 ]

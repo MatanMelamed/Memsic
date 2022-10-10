@@ -4,7 +4,7 @@ export class Notes {
   private static _notes: Note[] = new Array();
   private static _instance: Notes = new Notes();
 
-  static RandomNote(): Note {
+  static Random(): Note {
     return Notes._notes[Math.floor(Math.random() * Notes._notes.length)];
   }
 

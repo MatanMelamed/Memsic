@@ -1,4 +1,4 @@
-import {Intervals} from '..';
+import {Chords, Intervals, Notes} from '..';
 import {Chord} from './Chord';
 import {Interval} from './Interval';
 
@@ -10,42 +10,59 @@ export const enum ChordPolicyType {
 // intervals policy
 
 export const enum IntervalsCondition {
-  Contains = 'Contains',
-  DoesNotContain = 'Does Not Contain',
+  ContainsAll = 'Contains All',
+  DoesNotContainAny = 'Does Not Contain Any',
   Exactly = 'Exactly',
-  ExactlyNot = 'Exactly Not',
 }
 
-const checkContains = (chord: Chord, intervals: Interval[]): boolean => {
+// export const testPolicy = () => {
+//   const chords = Chords.All(Notes.Random());
+
+//   const policy = new ChordPolicy(
+//     'All',
+//     false,
+//     ChordPolicyType.Intervals,
+//     IntervalsCondition.ExactlyNot,
+//     [...Intervals.GetAll(['P1', 'M3', 'P5'])],
+//   );
+
+//   chords.forEach(chord => {
+//     const isPassing = isChordPassingPolicy(chord, policy);
+//     console.log(`${chord.Name()} is${isPassing ? ' ' : ' not '}passing policy`);
+//   });
+// };
+
+type policyChecker = (chord: Chord, intervals: Interval[]) => boolean;
+
+const checkContains: policyChecker = (chord, intervals) => {
   return chord.ContainsIntervals(intervals);
 };
 
-const checkDoesNotContain = (chord: Chord, intervals: Interval[]): boolean => {
-  return !chord.ContainsIntervals(intervals);
+const checkDoesNotContain: policyChecker = (chord, intervals) => {
+  return intervals.every(interval => !chord.ContainsIntervals([interval]));
 };
 
-const checkExactly = (chord: Chord, intervals: Interval[]): boolean => {
+const checkExactly: policyChecker = (chord, intervals) => {
   return (
     chord.ContainsIntervals(intervals) &&
     chord.Intervals().length === intervals.length
   );
 };
 
-const checkExactlyNot = (chord: Chord, intervals: Interval[]): boolean => {
+const checkExactlyNot: policyChecker = (chord, intervals) => {
   return !(
     chord.ContainsIntervals(intervals) &&
     chord.Intervals().length === intervals.length
   );
 };
 
-const intervalsConditionMap = {
-  [IntervalsCondition.Contains]: checkContains,
-  [IntervalsCondition.DoesNotContain]: checkDoesNotContain,
+const intervalsConditionMap: {
+  [constraint: string]: policyChecker;
+} = {
+  [IntervalsCondition.ContainsAll]: checkContains,
+  [IntervalsCondition.DoesNotContainAny]: checkDoesNotContain,
   [IntervalsCondition.Exactly]: checkExactly,
-  [IntervalsCondition.ExactlyNot]: checkExactlyNot,
 };
-
-//
 
 export class ChordPolicy {
   name: string;
@@ -75,8 +92,9 @@ export const isChordPassingPolicy = (
   policy: ChordPolicy,
 ): boolean => {
   if (policy.type === ChordPolicyType.Intervals) {
-    const policyTest = intervalsConditionMap[policy.intervalsCondition];
-    return policyTest(chord, policy.intervals);
+    const policyChecker = intervalsConditionMap[policy.intervalsCondition];
+    const checkerResult = policyChecker(chord, policy.intervals);
+    return checkerResult === policy.show;
   }
 
   return true;
@@ -95,15 +113,22 @@ export const DefaultChordPolicies = (): ChordPolicy[] => {
       'Major Chords',
       true,
       ChordPolicyType.Intervals,
-      IntervalsCondition.Contains,
+      IntervalsCondition.ContainsAll,
       [...Intervals.GetAll(['P1', 'M3', 'P5'])],
     ),
     new ChordPolicy(
       'Minor Chords',
       true,
       ChordPolicyType.Intervals,
-      IntervalsCondition.Contains,
+      IntervalsCondition.ContainsAll,
       [...Intervals.GetAll(['P1', 'm3', 'P5'])],
+    ),
+    new ChordPolicy(
+      '7ths',
+      false,
+      ChordPolicyType.Intervals,
+      IntervalsCondition.DoesNotContainAny,
+      [...Intervals.GetAll(['m7', 'M7'])],
     ),
   ];
 };

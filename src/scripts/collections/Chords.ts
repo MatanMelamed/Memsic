@@ -4,6 +4,7 @@ import {Notes} from './Notes';
 
 import chordStructuresJson from '../../../assets/models/chordStructures.json';
 import {ChordStructure} from '../models/ChordStructure';
+import {Note} from '..';
 
 export class Chords {
   private static _chordStructures: ChordStructure[] = [];
@@ -15,8 +16,12 @@ export class Chords {
     });
   }
 
+  static All(note: Note): Chord[] {
+    return this._chordStructures.map(st => new Chord(note, st));
+  }
+
   static RandomChord(): Chord {
-    return new Chord(Notes.RandomNote(), Chords.RandomChordStructure());
+    return new Chord(Notes.Random(), Chords.RandomChordStructure());
   }
 
   private static RandomChordStructure(): ChordStructure {
