@@ -12,6 +12,7 @@ import Separator from '../components/Separator'
 
 import { CheckIcon, PlusIcon, XMarkIcon } from "react-native-heroicons/solid";
 import { removeItem } from '../scripts/utilities'
+import { isSomethingMatchPolicies } from '../scripts/models/ChordPolicy'
 
 
 
@@ -35,6 +36,8 @@ const ChordBuilderSettingsScreen = ({ navigation }: ChordBuilderSettingsScreenPa
         setChordBuilderSettings(newSettings);
     }
 
+    const errorMessage = 'Policies filter all chords together'
+    const [policiesErrorMessage, setPoliciesErrorMessage] = useState('')
     const [chordPolicies, _] = useRecoilState<ChordPolicy[]>(ChordPoliciesState)
     const [enabledPolicies, setEnabledPolicies] = useRecoilState<ChordPolicy[]>(EnabledChordPoliciesState)
     const onPolicyToggle = (policy: ChordPolicy): void => {
@@ -42,7 +45,15 @@ const ChordBuilderSettingsScreen = ({ navigation }: ChordBuilderSettingsScreenPa
             const newEnabledPolicies = removeItem(enabledPolicies, policy)
             setEnabledPolicies(newEnabledPolicies)
         } else {
-            setEnabledPolicies([...enabledPolicies, policy])
+            const newEnabledPolicies = [...enabledPolicies, policy]
+            if (isSomethingMatchPolicies(newEnabledPolicies)) {
+                setEnabledPolicies(newEnabledPolicies)
+            } else {
+                if (policiesErrorMessage.length === 0) {
+                    setPoliciesErrorMessage(errorMessage);
+                    setTimeout(() => setPoliciesErrorMessage(''), 2000)
+                }
+            }
         }
     }
 
@@ -87,10 +98,13 @@ const ChordBuilderSettingsScreen = ({ navigation }: ChordBuilderSettingsScreenPa
             {/* Policies */}
             <View style={styles.policiesContainer}>
                 <Text style={styles.policiesTitle}>Policies</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', paddingVertical: spacing.medium }}>
+                    <TouchableOpacity onPress={() => navigation.navigate(Screens.ChordPolicy)}>
+                        <Text style={[theme.mediumButton, { marginLeft: spacing.medium }]}>New</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate(Screens.ChordPolicy)}>
-                    <Text style={[theme.mediumButton, { marginTop: spacing.medium }]}>New</Text>
-                </TouchableOpacity>
+                    <Text style={[theme.smallLabel, styles.policiesErrorMessage]} > {policiesErrorMessage}</Text>
+                </View>
 
                 <ScrollView>
                     {chordPolicies.map(policy => {
@@ -155,6 +169,11 @@ const styles = StyleSheet.create({
     policiesContainer:
     {
         // flex: 1, borderColor: 'red', borderWidth: 1
+    },
+
+    policiesErrorMessage: {
+        color: 'red',
+        marginLeft: spacing.medium
     },
 
     policiesTitle: {

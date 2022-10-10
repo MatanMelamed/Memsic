@@ -49,13 +49,6 @@ const checkExactly: policyChecker = (chord, intervals) => {
   );
 };
 
-const checkExactlyNot: policyChecker = (chord, intervals) => {
-  return !(
-    chord.ContainsIntervals(intervals) &&
-    chord.Intervals().length === intervals.length
-  );
-};
-
 const intervalsConditionMap: {
   [constraint: string]: policyChecker;
 } = {
@@ -105,6 +98,14 @@ export const isChordPassingPolicies = (
   policies: ChordPolicy[],
 ): boolean => {
   return policies.every(policy => isChordPassingPolicy(chord, policy));
+};
+
+export const isSomethingMatchPolicies = (policies: ChordPolicy[]) => {
+  const allChords = Chords.All(Notes.Random());
+  const passingChords = allChords.filter(chord =>
+    isChordPassingPolicies(chord, policies),
+  );
+  return passingChords.length > 0;
 };
 
 export const DefaultChordPolicies = (): ChordPolicy[] => {

@@ -1,16 +1,28 @@
 import {StyleSheet} from 'react-native';
 import {Colors} from '../Colors';
 
+const spacing = {
+  small: 8,
+  medium: 16,
+  large: 32,
+  huge: 64,
+};
+
+const fontSizes = {
+  small: 14,
+  medium: 16,
+  large: 20,
+};
+
 const defaultTheme = StyleSheet.create({
   mediumButton: {
     backgroundColor: Colors.Grayish,
     paddingVertical: 8,
-    marginHorizontal: 32,
     width: 90,
     borderRadius: 10,
 
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: fontSizes.medium,
     fontWeight: '700',
     color: Colors.White,
   },
@@ -36,18 +48,5 @@ const defaultTheme = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
-
-const spacing = {
-  small: 8,
-  medium: 16,
-  large: 32,
-  huge: 64,
-};
-
-const fontSizes = {
-  small: 14,
-  medium: 16,
-  large: 20,
-};
 
 export {defaultTheme as theme, spacing, fontSizes};
