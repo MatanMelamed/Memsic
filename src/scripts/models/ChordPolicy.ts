@@ -1,14 +1,14 @@
 import {Chord} from './Chord';
 import {Interval} from './Interval';
 
-const enum ChordPolicyType {
+export const enum ChordPolicyType {
   Intervals,
   Chords,
 }
 
 // intervals policy
 
-const enum IntervalsCondition {
+export const enum IntervalsCondition {
   Contains,
   DoesNotContain,
   Exactly,

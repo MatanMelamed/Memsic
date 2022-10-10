@@ -7,7 +7,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Interval, Intervals } from '../scripts';
 import { removeItem } from '../scripts/utilities';
 import { Colors } from '../../assets';
-import { ChordPolicy } from '../scripts/models/ChordPolicy';
+import { ChordPolicy, ChordPolicyType, IntervalsCondition } from '../scripts/models/ChordPolicy';
+import { useRecoilState } from 'recoil';
+import { ChordPoliciesState } from '../recoil/chords';
+import LogRecoilButton from '../components/logRecoilButton';
 
 
 export type ChordPolicyScreenParams = NativeStackScreenProps<RootStackParamList, Screens.ChordPolicy>
@@ -23,19 +26,19 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
     ]);
 
     const [typeOpen, setTypeOpen] = useState(false);
-    const [typeValue, setTypeValue] = useState('Intervals');
+    const [typeValue, setTypeValue] = useState(null);
     const [typeItems, setTypeItems] = useState([
-        // { label: 'Chords', value: 'Chords' },
-        { label: 'Intervals', value: 'Intervals' }
+        // { label: 'Chords', value: 'ChordPolicyType.Chords' },
+        { label: 'Intervals', value: ChordPolicyType.Intervals }
     ]);
 
     const [conditionOpen, setConditionOpen] = useState(false);
     const [conditionValue, setConditionValue] = useState(null);
     const [conditionItems, setConditionItems] = useState([
-        { label: 'Contains', value: 'Contains' },
-        { label: 'Does not contain', value: 'Does not contain' },
-        { label: 'Exactly', value: 'Exactly' },
-        { label: 'Exactly not', value: 'Exactly not' },
+        { label: 'Contains', value: IntervalsCondition.Contains },
+        { label: 'Does not contain', value: IntervalsCondition.DoesNotContain },
+        { label: 'Exactly', value: IntervalsCondition.Exactly },
+        { label: 'Exactly not', value: IntervalsCondition.ExactlyNot },
     ]);
 
     const [selectedIntervals, setSelectedIntervals] = useState<Interval[]>([])
@@ -49,10 +52,34 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
         }
     }
 
+    const [chordPolicies, setChordPolicies] = useRecoilState(ChordPoliciesState)
+
+    const isValid = () => {
+        return !(!policyName
+            || !actionValue
+            || (!typeValue && typeValue !== 0)
+            || (!conditionValue && conditionValue !== 0)
+            || selectedIntervals.length === 0);
+    }
+    const onSave = () => {
+        if (isValid()) {
+            console.log('Saving policy')
+            // @ts-ignore
+            const newChordPolicy = new ChordPolicy(policyName, actionValue === 'show', typeValue, conditionValue, selectedIntervals);
+            setChordPolicies([...chordPolicies, newChordPolicy])
+        } else {
+            console.log('Policy was not saved')
+        }
+    }
+
+    const onCancel = () => {
+        navigation.goBack();
+    }
+
     return (
         <View style={{ flex: 1 }}>
+            <LogRecoilButton />
             <View style={styles.screenContainer}>
-
                 {/* Policy Name */}
                 <View style={styles.settingContainer}>
                     <View style={styles.settingLabelContainer}>
@@ -151,12 +178,12 @@ const ChordPolicyScreen = ({ navigation }: ChordPolicyScreenParams) => {
             </View>
 
             <View style={styles.controlButtonsContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onCancel}>
                     <Text style={[styles.button, styles.cancelButton]}>
                         Cancel
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onSave}>
                     <Text style={[styles.button, styles.saveButton]}>
                         Save
                     </Text>
